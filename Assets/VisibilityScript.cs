@@ -22,7 +22,7 @@ public class VisibilityScript : MonoBehaviour {
         StartCoroutine(Visible());
         
     }
-    IEnumerator Visible()
+    public IEnumerator Visible()
     {
         int AmountOfFrames = 30;
         for (int i = 1; i < AmountOfFrames; i++)
@@ -40,7 +40,7 @@ public class VisibilityScript : MonoBehaviour {
         StartCoroutine(Invisible());
     }
 
-    IEnumerator Invisible()
+    public IEnumerator Invisible()
     {
         int AmountOfFrames = 30;
         for (int i = 1; i < AmountOfFrames; i++)

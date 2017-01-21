@@ -13,6 +13,11 @@ public class PlayerController : MonoBehaviour
     public GameObject bullet;
     public float bulletSpeed;
     public float destroyTime;
+    public float fireSpeed;
+
+    // Combat
+    public int hp;
+    public int maxHP;
 
     // Private references
     private Rigidbody2D rb;
@@ -21,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private BulletScript bs;
     private Animator ani;
     private VisibilityScript vs;
-
+    private Transform hpBar;
     private bool switchSide;
     private bool invisible;
 
@@ -40,6 +45,8 @@ public class PlayerController : MonoBehaviour
 
         vs = GetComponent<VisibilityScript>();
         vs.BecomeInvisible();
+
+        hpBar = transform.FindChild("HealthBar");
     }
 
     // Update is called once per frame
@@ -71,12 +78,14 @@ public class PlayerController : MonoBehaviour
         }
         
         if (Input.GetButtonDown("A_" + ((1+ (int)playerIndex))))
+        {
+            StartCoroutine(SetVibrations(0.2f, 0.5f));
             StartCoroutine(Jump());
-
+        }
+            
         // Rotation
         float angleRad = Mathf.Atan2(aim.transform.position.y - transform.position.y, aim.transform.position.x - transform.position.x);
         float angleDeg = (180 / Mathf.PI) * angleRad;
-        //transform.rotation = Quaternion.Euler(0, 0, angleDeg);
         bullSpawnPos.rotation = Quaternion.Euler(0, 0, angleDeg + -90);
 
         // Aiming
@@ -86,8 +95,21 @@ public class PlayerController : MonoBehaviour
         aim.transform.position = aimPos + transform.position;
 
         // Shooting
-        if (Input.GetAxisRaw("TriggersR_" + (((int)playerIndex) + 1)) > 0)
-            Instantiate(bullet, bullSpawnPos.position, bullSpawnPos.rotation);
+        float nextShot = Time.time;
+        if (Input.GetAxisRaw("TriggersR_" + (((int)playerIndex) + 1)) != 0)
+        {
+            //fireSpeed = Time.time + fireSpeed;
+            Instantiate(bullet, aim.position, bullSpawnPos.rotation);
+        }
+
+        // HP bar
+        if(hp <= 0)
+        {
+            Debug.Log("Player " + ((int)playerIndex + 1) + " Died");
+            gameObject.SetActive(false);
+        }
+        hpBar.localScale = new Vector3(hp / maxHP, 1f, 1f);
+            
     }
 
     IEnumerator Jump()
@@ -97,5 +119,12 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpCurve.Evaluate(i) * 10);
             yield return new WaitForSeconds(0f);
         }
+    }
+
+    IEnumerator SetVibrations(float duration, float intensity)
+    {
+        GamePad.SetVibration(playerIndex, intensity, intensity);
+        yield return new WaitForSeconds(duration);
+        GamePad.SetVibration(playerIndex, 0f, 0f);
     }
 }
