@@ -15,6 +15,8 @@ public class ColliderController : MonoBehaviour {
     public Color color { get; set; }
     public bool isActive { get; set; }
     public bool repeat { get; set; }
+    public int id { get; set; }
+
 
     private GeneratorController gc;
     private DrawCircle drawCircle;
@@ -30,7 +32,7 @@ public class ColliderController : MonoBehaviour {
 
         circleCollider.radius = baseRadius;
 
-        //Give Random Color when spawned from custom event
+
         if (!repeat)
         {
             lr.startColor = new Color(Random.value, Random.value, Random.value, 1.0f);
@@ -51,6 +53,8 @@ public class ColliderController : MonoBehaviour {
 
 
         isActive = true;
+
+        Debug.Log(color);
     }
 
     void Update()
@@ -81,7 +85,6 @@ public class ColliderController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D _col)
     {
-        Debug.Log("dsadas");
         if(_col.transform.tag == targetTeamTag)
         {
             //Do stuff when player gets hit by the "wave"

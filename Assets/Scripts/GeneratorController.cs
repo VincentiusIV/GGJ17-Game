@@ -3,19 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GeneratorController : MonoBehaviour {
-    [SerializeField] private string[] teamTags;
-    [SerializeField] private GameObject wavePrefab;
 
-    [SerializeField] private float baseSpeed;
-    [SerializeField] private float baseRadius;
-    [SerializeField] private float maxRadius;
-    [SerializeField] private string colliderTagPrefix;
+    [SerializeField] private string[] teamTags;         //Array of all teamTags 
+    [SerializeField] private Color[] teamColors;        //Array of all teamColor (Wave Color) by index teamTags
+    [SerializeField] private GameObject wavePrefab;     //Wave Prefab
 
+    [SerializeField] private float baseSpeed;           //Default Starting speed
+    [SerializeField] private float baseRadius;          //Default Base Radius
+    [SerializeField] private float maxRadius;           //Max  Radius of the wave
+    [SerializeField] private string colliderTagPrefix;  //Editor Name prefix for all colliders
+    private bool error = false;
     void Start()
     {
-        foreach (var _team in teamTags)
+        //Loop though all teams and spawn waves 
+        for (int i = 0; i < teamTags.Length; i++)
         {
-            SpawnWave(_team, true);
+            Debug.Log(i);
+            SpawnWave(teamTags[i], i, true);
         }
 
     }
@@ -23,6 +27,7 @@ public class GeneratorController : MonoBehaviour {
 
     void Update()
     {
+        //Development
         if (Input.GetKeyDown(KeyCode.Q))
         {
             GameObject _comp = GameObject.Find("CC_TEAM_01");
@@ -37,17 +42,19 @@ public class GeneratorController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SpawnWave("test", false);
+            SpawnWave("test", -1, false);
         }
     }
 
-    void SpawnWave(string _team, bool _repeat)
+    void SpawnWave(string _team,int num, bool _repeat)
     {
-        GameObject _waveCollider = Instantiate(wavePrefab, transform.position, Quaternion.identity);
-        _waveCollider.transform.name = colliderTagPrefix + _team;
 
-        ColliderController _wcc = _waveCollider.GetComponent<ColliderController>();
+        GameObject _waveCollider = Instantiate(wavePrefab, transform.position, Quaternion.identity);    //Spawn wavePrefab at Controller location
+        _waveCollider.transform.name = colliderTagPrefix + _team;                                       //Set name in editor
 
+        ColliderController _wcc = _waveCollider.GetComponent<ColliderController>();                     //Call to ColliderController attatched to _waveCollider 
+
+        //* Setup all variables for the wave *//
         _wcc.targetTeamTag = _team;                  //Setup Collider Target Tag
         _wcc.baseSpeed = baseSpeed;                  //Set Collider baseSpeed
         _wcc.baseRadius = baseRadius;                //Set Collider base Radius
@@ -55,16 +62,20 @@ public class GeneratorController : MonoBehaviour {
         _waveCollider.transform.parent = transform;  //Set parent to this object.
         _wcc.repeat = _repeat;
 
-        switch (_team)
+        //Set wave color based on teamColors arry (index of teamTags)
+        try
         {
-            case "TEAM_01":
-                _wcc.color = Color.red;
-                break;
-            case "TEAM_02":
-                _wcc.color = Color.blue;
-                break;
+            _wcc.color = teamColors[num];
         }
+        catch (System.IndexOutOfRangeException)
+        {
+            Debug.Log("Looks like there is something missing in the GeneratorController! Missing teamColor!");
+            _wcc.color = Color.white;
+        }
+       
 
+        //Run Setup in ColliderController
         _wcc.Setup();                               //Apply all settings
     }
+
 }
