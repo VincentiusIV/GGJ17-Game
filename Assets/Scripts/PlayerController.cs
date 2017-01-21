@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public float bulletSpeed;
     public float destroyTime;
     public float fireSpeed;
-
+    private float nextShot;
     // Combat
     public int hp;
     public int maxHP;
@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
         vs.BecomeInvisible();
 
         hpBar = transform.FindChild("HealthBar");
+
+        nextShot = fireSpeed;
     }
 
     // Update is called once per frame
@@ -94,10 +96,11 @@ public class PlayerController : MonoBehaviour
         aim.transform.position = aimPos + transform.position;
 
         // Shooting
-        float nextShot = Time.time;
-        if (Input.GetAxisRaw("TriggersR_" + (((int)playerIndex) + 1)) != 0)
+        
+        if (Time.time > fireSpeed && Input.GetAxisRaw("TriggersR_" + (((int)playerIndex) + 1)) != 0)
         {
-            //fireSpeed = Time.time + fireSpeed;
+            
+            fireSpeed = Time.time + nextShot; Debug.Log(fireSpeed);
             Instantiate(bullet, aim.position, bullSpawnPos.rotation);
         }
 

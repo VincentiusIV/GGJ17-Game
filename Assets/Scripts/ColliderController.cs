@@ -80,20 +80,19 @@ public class ColliderController : MonoBehaviour {
             drawCircle._vertRadius += baseSpeed * 2;
             circleCollider.radius += baseSpeed;
         }
-
     }
 
 
     IEnumerator OnTriggerEnter2D(Collider2D _col)
     {
-        Debug.Log("Hit " + _col.transform.tag);
-        if (_col.tag == targetTeamTag)
-            Debug.Log("fuck you");
-        if(_col.name == "Player1")
+        if(_col.tag == targetTeamTag)
         {
+            VisibilityScript vs = _col.GetComponent<VisibilityScript>();
             //Do stuff when player get hit by the "wave"
-            yield return StartCoroutine(_col.GetComponent<VisibilityScript>().Visible());
-            yield return StartCoroutine(_col.GetComponent<VisibilityScript>().Invisible());
+            vs.StopAllCoroutines();
+            vs.isChanging = false;
+            yield return StartCoroutine(vs.Visible());
+            yield return StartCoroutine(vs.Invisible());
         }
     }
 

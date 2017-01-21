@@ -9,9 +9,10 @@ public class CapturePoint : MonoBehaviour {
     private IEnumerator captureCalc;
 
     private GameObject proBar1, proBar2;
-
+    private GameController gc;
 	// Use this for initialization
 	void Start () {
+        gc = GameObject.Find("GameController").GetComponent<GameController>();
         StartCoroutine(Capture());
         proBar1 = transform.FindChild("Team1").gameObject;
         proBar2 = transform.FindChild("Team2").gameObject;

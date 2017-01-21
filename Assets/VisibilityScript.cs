@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class VisibilityScript : MonoBehaviour {
 
-    private Material mat;
-
     private SpriteRenderer sr;
     private Color color;
+    public bool isChanging;
 
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
-        mat = sr.material;
         color = sr.color;
     }
     public void BecomeVisible()
@@ -20,10 +18,10 @@ public class VisibilityScript : MonoBehaviour {
         color.a = 0;
         sr.color = color;
         StartCoroutine(Visible());
-        
     }
     public IEnumerator Visible()
     {
+        isChanging = true;
         int AmountOfFrames = 30;
         for (int i = 1; i < AmountOfFrames; i++)
         {
@@ -31,10 +29,12 @@ public class VisibilityScript : MonoBehaviour {
             color.a += 0.033f;
             sr.color = color;
         }
+        isChanging = false;
     }
 
     public void BecomeInvisible()
     {
+        Debug.Log("becoming vis");
         color.a = 1f;
         sr.color = color;
         StartCoroutine(Invisible());
@@ -42,6 +42,8 @@ public class VisibilityScript : MonoBehaviour {
 
     public IEnumerator Invisible()
     {
+        isChanging = true;
+        Debug.Log("becoming invis");
         int AmountOfFrames = 30;
         for (int i = 1; i < AmountOfFrames; i++)
         {
@@ -49,6 +51,7 @@ public class VisibilityScript : MonoBehaviour {
             color.a -= 0.033f;
             sr.color = color;
         }
+        isChanging = false;
     }
 }
 
