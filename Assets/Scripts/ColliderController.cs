@@ -88,7 +88,7 @@ public class ColliderController : MonoBehaviour {
         if(_col.transform.tag == targetTeamTag)
         {
             //Do stuff when player get hit by the "wave"
-            
+            4
         }
     }
 
