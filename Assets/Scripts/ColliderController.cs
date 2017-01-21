@@ -59,7 +59,7 @@ public class ColliderController : MonoBehaviour {
 
     void Update()
     {
-
+        
         if(isActive && circleCollider.radius >= maxRadius)
         {
             if (!repeat) {
@@ -87,7 +87,7 @@ public class ColliderController : MonoBehaviour {
     {
         if(_col.transform.tag == targetTeamTag)
         {
-            //Do stuff when player gets hit by the "wave"
+            //Do stuff when player get hit by the "wave"
 
         }
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class GeneratorController : MonoBehaviour {
 
     [SerializeField] private string[] teamTags;         //Array of all teamTags 
-    [SerializeField] private Color[] teamColors;        //Array of all teamColor (Wave Color) by index teamTags
+    [SerializeField] public Color[] teamColors;        //Array of all teamColor (Wave Color) by index teamTags
     [SerializeField] private GameObject wavePrefab;     //Wave Prefab
 
     [SerializeField] private float baseSpeed;           //Default Starting speed
@@ -60,8 +60,9 @@ public class GeneratorController : MonoBehaviour {
         _wcc.baseRadius = baseRadius;                //Set Collider base Radius
         _wcc.maxRadius = maxRadius;                  //Set collider max Radius
         _waveCollider.transform.parent = transform;  //Set parent to this object.
-        _wcc.repeat = _repeat;
-
+        _wcc.repeat = _repeat;                       //Set if the waves should repeat
+        _wcc.id = num;                               //Set ID of the objects
+            
         //Set wave color based on teamColors arry (index of teamTags)
         try
         {
