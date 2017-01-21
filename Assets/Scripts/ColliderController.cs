@@ -42,8 +42,8 @@ public class ColliderController : MonoBehaviour {
         }
 
 
-        lr.startWidth = 0.1f;
-        lr.endWidth = 0.1f;
+        lr.startWidth = 0.02f;
+        lr.endWidth = 0.02f;
 
         drawCircle = GetComponent<DrawCircle>();
         drawCircle._horizRadius = 0.1f;
@@ -81,6 +81,7 @@ public class ColliderController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D _col)
     {
+        Debug.Log("dsadas");
         if(_col.transform.tag == targetTeamTag)
         {
             //Do stuff when player gets hit by the "wave"
