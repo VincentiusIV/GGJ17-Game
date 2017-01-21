@@ -19,10 +19,9 @@ public class PlayerController : MonoBehaviour
     private Transform aim;
     private Transform bullSpawnPos;
     private BulletScript bs;
-    private SpriteRenderer sr;
+    private Animator ani;
 
-    private Sprite left;
-    private Sprite right;
+    private bool switchSide;
 
     void Start()
     {
@@ -35,15 +34,15 @@ public class PlayerController : MonoBehaviour
 
         bullSpawnPos = transform.FindChild("SpawnPos");
 
-        sr = GetComponent<SpriteRenderer>();
+        ani = GetComponent<Animator>();
 
-        left = Resources.Load<Sprite>("Sprites/" + gameObject.tag + "_Left_" + (1 + (int)playerIndex));
+  /*      left = Resources.Load<Sprite>("Sprites/" + gameObject.tag + "_Left_" + (1 + (int)playerIndex));
         right = Resources.Load<Sprite>("Sprites/" + gameObject.tag + "_Right_" + (1 + (int)playerIndex));
 
         if (gameObject.CompareTag("Team1"))
             sr.sprite = right;
         else if (gameObject.CompareTag("Team2"))
-            sr.sprite = left;
+            sr.sprite = left;*/
     }
 
     // Update is called once per frame
@@ -55,10 +54,19 @@ public class PlayerController : MonoBehaviour
 
         Vector2 movement = new Vector2(xPos, rb.velocity.y);
         rb.velocity = movement;
-        if (xPos > 0)
-            sr.sprite = right;
+        if (xPos == 0)
+            ani.SetBool("isWalking", false);
+        else if (xPos > 0)
+        {
+            transform.localScale = new Vector3(2f, transform.localScale.y, transform.localScale.z);
+            ani.SetBool("isWalking", true);
+        }  
         else if (xPos < 0)
-            sr.sprite = left;
+        {
+            transform.localScale = new Vector3(-2f, transform.localScale.y, transform.localScale.z);
+            ani.SetBool("isWalking", true);
+        }
+        
         if (Input.GetButtonDown("A_" + ((1+ (int)playerIndex))))
             StartCoroutine(Jump());
 
