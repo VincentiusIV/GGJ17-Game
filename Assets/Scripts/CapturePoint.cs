@@ -7,9 +7,15 @@ public class CapturePoint : MonoBehaviour {
     private int team1Percent, team2Percent;
     private bool team1Capping, team2Capping;
     private IEnumerator captureCalc;
+
+    private GameObject proBar1, proBar2;
+
 	// Use this for initialization
 	void Start () {
         StartCoroutine(Capture());
+        proBar1 = transform.FindChild("Team1").gameObject;
+        proBar2 = transform.FindChild("Team2").gameObject;
+        UpdateBars();
 	}
 	
 	// Update is called once per frame
@@ -39,6 +45,7 @@ public class CapturePoint : MonoBehaviour {
         while (true)
         {
             yield return new WaitForSeconds(1f);
+
             if (team1Capping && !team2Capping)
             {
                 Debug.Log("Team1 is capping");
@@ -46,7 +53,7 @@ public class CapturePoint : MonoBehaviour {
                     team2Percent -= 10;
                 else if(team1Percent <= 100)
                     team1Percent += 10;
-
+                UpdateBars();
                 Debug.Log("team1: " + team1Percent + " team2:" + team2Percent);
                 if (team1Percent == 100)
                     Debug.Log("team1 capped the point"); // call function to do radar
@@ -58,6 +65,7 @@ public class CapturePoint : MonoBehaviour {
                     team1Percent -= 10;
                 else if(team2Percent <= 100)
                     team2Percent += 10;
+                UpdateBars();
                 Debug.Log("team1: " + team1Percent + " team2:" + team2Percent);
                 if (team2Percent == 100)
                     Debug.Log("team2 capped the point");// call function to do radar
@@ -65,5 +73,11 @@ public class CapturePoint : MonoBehaviour {
             }
             
         }
+    }
+
+    void UpdateBars()
+    {
+        proBar1.transform.localScale = new Vector3(team1Percent / 100f, proBar1.transform.localScale.y, 0f);
+        proBar2.transform.localScale = new Vector3(team2Percent / 100f, proBar2.transform.localScale.y, 0f);
     }
 }
