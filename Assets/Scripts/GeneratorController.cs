@@ -53,7 +53,6 @@ public class GeneratorController : MonoBehaviour {
         _waveCollider.transform.name = colliderTagPrefix + _team;                                       //Set name in editor
 
         ColliderController _wcc = _waveCollider.GetComponent<ColliderController>();                     //Call to ColliderController attatched to _waveCollider 
-
         //* Setup all variables for the wave *//
         _wcc.targetTeamTag = _team;                  //Setup Collider Target Tag
         _wcc.baseSpeed = baseSpeed;                  //Set Collider baseSpeed

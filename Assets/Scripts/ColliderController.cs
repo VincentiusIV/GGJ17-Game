@@ -55,6 +55,7 @@ public class ColliderController : MonoBehaviour {
         isActive = true;
 
         Debug.Log(color);
+        Debug.Log(targetTeamTag);
     }
 
     void Update()
@@ -83,12 +84,16 @@ public class ColliderController : MonoBehaviour {
     }
 
 
-    void OnTriggerEnter2D(Collider2D _col)
+    IEnumerator OnTriggerEnter2D(Collider2D _col)
     {
-        if(_col.transform.tag == targetTeamTag)
+        Debug.Log("Hit " + _col.transform.tag);
+        if (_col.tag == targetTeamTag)
+            Debug.Log("fuck you");
+        if(_col.name == "Player1")
         {
             //Do stuff when player get hit by the "wave"
-            4
+            yield return StartCoroutine(_col.GetComponent<VisibilityScript>().Visible());
+            yield return StartCoroutine(_col.GetComponent<VisibilityScript>().Invisible());
         }
     }
 
