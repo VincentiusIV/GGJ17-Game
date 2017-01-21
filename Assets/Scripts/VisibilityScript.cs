@@ -7,6 +7,9 @@ public class VisibilityScript : MonoBehaviour {
     private SpriteRenderer sr;
     private Color color;
     public bool isChanging;
+    public bool isVisible;
+    public bool isInvisible;
+    private Transform hpBar;
 
     void Awake()
     {
@@ -19,6 +22,7 @@ public class VisibilityScript : MonoBehaviour {
         sr.color = color;
         StartCoroutine(Visible());
     }
+
     public IEnumerator Visible()
     {
         isChanging = true;
@@ -30,6 +34,8 @@ public class VisibilityScript : MonoBehaviour {
             sr.color = color;
         }
         isChanging = false;
+        isVisible = true;
+        isInvisible = false;
     }
 
     public void BecomeInvisible()
@@ -52,6 +58,8 @@ public class VisibilityScript : MonoBehaviour {
             sr.color = color;
         }
         isChanging = false;
+        isVisible = false;
+        isInvisible = true;
     }
 }
 

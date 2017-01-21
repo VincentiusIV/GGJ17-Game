@@ -3,9 +3,7 @@ using System.Collections;
 
 public class CameraMovements : MonoBehaviour
 {
-    [SerializeField]private GameObject minimap;
-
-    public GameObject target;
+    public Transform[] targets;
     public float camDistance;
     public float lerpIntensity;
     public float pixelToUnits;
@@ -15,23 +13,17 @@ public class CameraMovements : MonoBehaviour
     {
         GetComponent<Camera>().orthographicSize = (Screen.height / pixelToUnits) / 2;
     }
-    void FixedUpdate()
-    {
-        //Vector3 targetPosition = new Vector3(RoundToNearestPixel(target.transform.position.x), RoundToNearestPixel(target.transform.position.y), 0f )+ new Vector3(0f, 0f, -camDistance);
-        Vector3 targetPosition = target.transform.position + new Vector3(0f, 0f, -camDistance);
-        transform.position = Vector3.Lerp(transform.position, targetPosition, lerpIntensity);
-    }
-
     void Update()
     {
-        minimap.transform.position = new Vector3(target.transform.position.x, target.transform.position.y, minimap.transform.position.z);
-    }
+        Vector3 targetPosition = new Vector3();
+        for (int i = 0; i < targets.Length; i++)
+        {
+            targetPosition += targets[i].position;
+        }
+        targetPosition /= targets.Length;
+        targetPosition += new Vector3(0f, 0f, -camDistance);
 
-    public float RoundToNearestPixel(float unityUnits)
-    {
-        float valueInPixels = unityUnits * pixelToUnits;
-        valueInPixels = Mathf.Round(valueInPixels);
-        float roundedUnityUnits = valueInPixels * (1 / pixelToUnits);
-        return roundedUnityUnits;
+
+        transform.position = Vector3.Lerp(transform.position, targetPosition, lerpIntensity);
     }
 }

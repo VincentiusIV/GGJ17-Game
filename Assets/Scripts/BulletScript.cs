@@ -35,7 +35,6 @@ public class BulletScript : MonoBehaviour
                 yield return StartCoroutine(col.GetComponent<VisibilityScript>().Invisible());
                 Destroy(gameObject);
             }
-                
         }
         
         else if(col.CompareTag("Environment"))

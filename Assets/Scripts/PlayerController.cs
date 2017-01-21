@@ -27,8 +27,11 @@ public class PlayerController : MonoBehaviour
     private Animator ani;
     private VisibilityScript vs;
     private Transform hpBar;
+    private GameController gc;
+
     private bool switchSide;
     private bool invisible;
+    private bool isShooting;
 
     void Start()
     {
@@ -47,7 +50,7 @@ public class PlayerController : MonoBehaviour
         vs.BecomeInvisible();
 
         hpBar = transform.FindChild("HealthBar");
-
+        gc = GameObject.Find("GameController").GetComponent<GameController>();
         nextShot = fireSpeed;
     }
 
@@ -62,28 +65,27 @@ public class PlayerController : MonoBehaviour
         if (xPos == 0)
         {
             ani.SetBool("isWalking", false);
-            vs.BecomeInvisible();
+            if(!isShooting && vs.isVisible)
+                vs.BecomeInvisible();
         }
             
         else if (xPos > 0)
         {
-            vs.BecomeVisible();
             transform.localScale = new Vector3(1f, transform.localScale.y, transform.localScale.z);
             ani.SetBool("isWalking", true);
         }  
         else if (xPos < 0)
         {
-            vs.BecomeVisible();
             transform.localScale = new Vector3(-1f, transform.localScale.y, transform.localScale.z);
             ani.SetBool("isWalking", true);
         }
-        
-        if (Input.GetButtonDown("A_" + ((1+ (int)playerIndex))))
+
+        if (Input.GetAxisRaw("TriggersR_" + (((int)playerIndex) + 1)) < 0)
         {
-            StartCoroutine(SetVibrations(1f, 0.5f));
             StartCoroutine(Jump());
         }
-            
+        
+
         // Rotation
         float angleRad = Mathf.Atan2(aim.transform.position.y - transform.position.y, aim.transform.position.x - transform.position.x);
         float angleDeg = (180 / Mathf.PI) * angleRad;
@@ -96,22 +98,26 @@ public class PlayerController : MonoBehaviour
         aim.transform.position = aimPos + transform.position;
 
         // Shooting
-        
-        if (Time.time > fireSpeed && Input.GetAxisRaw("TriggersR_" + (((int)playerIndex) + 1)) != 0)
+        if (Time.time > fireSpeed && Input.GetAxisRaw("TriggersR_" + (((int)playerIndex) + 1)) > 0)
         {
-            
+            isShooting = true;
+            if(vs.isInvisible)
+                vs.BecomeVisible();
+            vs.isChanging = true;
             fireSpeed = Time.time + nextShot; Debug.Log(fireSpeed);
-            Instantiate(bullet, aim.position, bullSpawnPos.rotation);
+            Instantiate(bullet, bullSpawnPos.position, bullSpawnPos.rotation);
         }
-
+        else if (Input.GetAxisRaw("TriggersR_" + (((int)playerIndex) + 1)) == 0)
+            isShooting = false;
         // HP bar
-        if(hp <= 0)
+        if (hp <= 0)
         {
             Debug.Log("Player " + ((int)playerIndex + 1) + " Died");
-            gameObject.SetActive(false);
-        }
-        hpBar.localScale = new Vector3(hp / maxHP, 1f, 1f);
+            StartCoroutine(SetVibrations(1f, 0.5f));
+            StartCoroutine(gc.RespawnPlayer(this));
             
+        }
+        hpBar.localScale = new Vector3(hp / maxHP, 1f, 1f); 
     }
 
     IEnumerator Jump()
