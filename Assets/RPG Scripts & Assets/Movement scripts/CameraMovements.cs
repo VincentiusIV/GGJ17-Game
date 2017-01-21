@@ -11,17 +11,18 @@ public class CameraMovements : MonoBehaviour
 
     void Start()
     {
-        GetComponent<Camera>().orthographicSize = (Screen.height / pixelToUnits) / 2;
+        GetComponent<Camera>().orthographicSize = (Screen.width / pixelToUnits) / 3.2f;
     }
     void Update()
     {
-        Vector3 targetPosition = new Vector3();
+        
+        float xPos = 0f;
         for (int i = 0; i < targets.Length; i++)
         {
-            targetPosition += targets[i].position;
+            xPos += targets[i].position.x;
         }
-        targetPosition /= targets.Length;
-        targetPosition += new Vector3(0f, 0f, -camDistance);
+        xPos /= (targets.Length * 2);
+        Vector3 targetPosition = new Vector3(xPos, 0f, -camDistance);
 
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, lerpIntensity);

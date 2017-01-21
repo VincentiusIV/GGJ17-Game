@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CapturePoint : MonoBehaviour {
 
+    public int capPointID;
     private int team1Percent, team2Percent;
     private bool team1Capping, team2Capping;
     private IEnumerator captureCalc;
@@ -57,7 +58,7 @@ public class CapturePoint : MonoBehaviour {
                 UpdateBars();
                 Debug.Log("team1: " + team1Percent + " team2:" + team2Percent);
                 if (team1Percent == 100)
-                    Debug.Log("team1 capped the point"); // call function to do radar
+                    gc.CapturePoint(capPointID, "Team1");
                 continue;
             }
             if(team2Capping && !team1Capping)
@@ -69,10 +70,9 @@ public class CapturePoint : MonoBehaviour {
                 UpdateBars();
                 Debug.Log("team1: " + team1Percent + " team2:" + team2Percent);
                 if (team2Percent == 100)
-                    Debug.Log("team2 capped the point");// call function to do radar
+                    gc.CapturePoint(capPointID, "Team2");
                 continue;
             }
-            
         }
     }
 

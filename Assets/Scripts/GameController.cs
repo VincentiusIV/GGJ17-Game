@@ -5,11 +5,23 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
 
     public GameObject defSpawnPosTeam1, defSpawnPosTeam2;
-
     public GameObject[] spawnPositions;
     public float respawnTime;
 
     public int team1DeathCount, team2DeathCount;
+
+    void Start()
+    {
+        for (int i = 0; i < spawnPositions.Length; i++)
+        {
+            spawnPositions[i].GetComponent<SpawnPosition>().spawnState = "nobody";
+        }
+    }
+
+    public void CapturePoint(int pointID, string team)
+    {
+        spawnPositions[pointID].GetComponent<SpawnPosition>().spawnState = team;
+    }
 
 	void OnTriggerExit2D(Collider2D col)
     {
@@ -29,28 +41,19 @@ public class GameController : MonoBehaviour {
             team2DeathCount += 1;
 
         yield return new WaitForSeconds(respawnTime);
+        player.hp = player.maxHP;
         player.enabled = true;
         Debug.Log("Respawning player: " + player.name);
-        int arrayPos = ReturnSpawnForTeam(player.gameObject.tag);
-        Debug.Log("arraypos"+arrayPos);
-        if (arrayPos == -1)
-        {
-            if (player.CompareTag("Team1"))
-                player.transform.position = defSpawnPosTeam1.transform.position;
-            else if (player.CompareTag("Team2"))
-                player.transform.position = defSpawnPosTeam1.transform.position;
-        }  
-        else
-            player.transform.position = spawnPositions[arrayPos].transform.position;
-    }
 
-    int ReturnSpawnForTeam(string tag)
-    {
+        Vector3 spawn = new Vector3();
         for (int i = 0; i < spawnPositions.Length; i++)
         {
-            if (spawnPositions[i].CompareTag(tag))
-                return i;
+            if(spawnPositions[i].GetComponent<SpawnPosition>().spawnState == player.tag)
+            {
+                spawn = spawnPositions[i].transform.position;
+                break;
+            }
         }
-        return -1;
+        player.transform.position = spawn;
     }
 }
