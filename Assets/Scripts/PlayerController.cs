@@ -20,8 +20,10 @@ public class PlayerController : MonoBehaviour
     private Transform bullSpawnPos;
     private BulletScript bs;
     private Animator ani;
+    private VisibilityScript vs;
 
     private bool switchSide;
+    private bool invisible;
 
     void Start()
     {
@@ -36,13 +38,8 @@ public class PlayerController : MonoBehaviour
 
         ani = GetComponent<Animator>();
 
-  /*      left = Resources.Load<Sprite>("Sprites/" + gameObject.tag + "_Left_" + (1 + (int)playerIndex));
-        right = Resources.Load<Sprite>("Sprites/" + gameObject.tag + "_Right_" + (1 + (int)playerIndex));
-
-        if (gameObject.CompareTag("Team1"))
-            sr.sprite = right;
-        else if (gameObject.CompareTag("Team2"))
-            sr.sprite = left;*/
+        vs = GetComponent<VisibilityScript>();
+        vs.BecomeInvisible();
     }
 
     // Update is called once per frame
@@ -55,14 +52,20 @@ public class PlayerController : MonoBehaviour
         Vector2 movement = new Vector2(xPos, rb.velocity.y);
         rb.velocity = movement;
         if (xPos == 0)
+        {
             ani.SetBool("isWalking", false);
+            vs.BecomeInvisible();
+        }
+            
         else if (xPos > 0)
         {
+            vs.BecomeVisible();
             transform.localScale = new Vector3(2f, transform.localScale.y, transform.localScale.z);
             ani.SetBool("isWalking", true);
         }  
         else if (xPos < 0)
         {
+            vs.BecomeVisible();
             transform.localScale = new Vector3(-2f, transform.localScale.y, transform.localScale.z);
             ani.SetBool("isWalking", true);
         }
@@ -94,6 +97,5 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpCurve.Evaluate(i) * 10);
             yield return new WaitForSeconds(0f);
         }
-        
     }
 }
