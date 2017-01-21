@@ -45,7 +45,7 @@ public class DrawCircle : MonoBehaviour
     {
         _line = gameObject.GetComponent<LineRenderer>();
 
-        _line.SetVertexCount(_segments + 1);
+        _line.numPositions = _segments + 1;
         _line.useWorldSpace = false;
 
         UpdateValuesChanged();
@@ -88,7 +88,7 @@ public class DrawCircle : MonoBehaviour
 
         if (_previousSegmentsValue != _segments)
         {
-            _line.SetVertexCount(_segments + 1);
+            _line.numPositions = _segments + 1;
         }
 
         float x;
@@ -100,7 +100,7 @@ public class DrawCircle : MonoBehaviour
         for (int i = 0; i < (_segments + 1); i++)
         {
             float perlin = Mathf.PerlinNoise(i / scale * frequency + random * 10, i / scale * frequency + random);
-            float height = perlin * amplitude;
+            float height = perlin * amplitude / 100;
             //float xPerl = Mathf.Sin(i / sinWaveAmp) + sinWaveFrequency;
             //float yPerl = Mathf.Sin(i / sinWaveAmp) + sinWaveFrequency;
 

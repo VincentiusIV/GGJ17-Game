@@ -79,4 +79,9 @@ public class GeneratorController : MonoBehaviour {
         _wcc.Setup();                               //Apply all settings
     }
 
+    void OnTriggerEnter2D(Collider2D _col)
+    {
+        //Spawn new wave.
+        SpawnWave("hitGenerator", -1, false);
+    }
 }
