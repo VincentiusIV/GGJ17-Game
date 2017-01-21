@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         float angleRad = Mathf.Atan2(aim.transform.position.y - transform.position.y, aim.transform.position.x - transform.position.x);
         float angleDeg = (180 / Mathf.PI) * angleRad;
         bullSpawnPos.rotation = Quaternion.Euler(0, 0, angleDeg + -90);
-        aim.rotation = Quaternion.Euler(0, 0, angleDeg + -90);
+        aim.rotation = Quaternion.Euler(0, 0, angleDeg);
 
         // Aiming
         float aimX = Input.GetAxis("R_XAxis_" + ((int)playerIndex + 1));
@@ -105,7 +105,11 @@ public class PlayerController : MonoBehaviour
             if(vs.isInvisible)
                 vs.BecomeVisible();
             vs.isChanging = true;
-            fireSpeed = Time.time + nextShot; 
+            fireSpeed = Time.time + nextShot;
+            if (gameObject.CompareTag("Team1"))
+                bullet.GetComponent<BulletScript>().team1 = true;
+            else if (gameObject.CompareTag("Team2"))
+                bullet.GetComponent<BulletScript>().team1 = false;
             Instantiate(bullet, bullSpawnPos.position, bullSpawnPos.rotation);
         }
         else if (Input.GetAxisRaw("TriggersR_" + (((int)playerIndex) + 1)) == 0)
@@ -118,7 +122,6 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(gc.RespawnPlayer(this));
             
         }
-        hpBar.localScale = new Vector3(hp / maxHP, 1f, 1f); 
     }
 
     IEnumerator Jump()

@@ -12,6 +12,8 @@ public class CameraMovements : MonoBehaviour
     void Start()
     {
         GetComponent<Camera>().orthographicSize = (Screen.width / pixelToUnits) / 3.2f;
+        transform.GetChild(0).localScale = new Vector3((Screen.width / pixelToUnits) / 10, (Screen.width / pixelToUnits) / 10, 1f);
+
     }
     void Update()
     {

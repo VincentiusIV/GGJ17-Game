@@ -22,25 +22,20 @@ public class BulletScript : MonoBehaviour
         {
             if(team1 && col.gameObject.name == "Player1" || team1 && col.gameObject.name == "Player2")
             {
-                col.GetComponent<PlayerController>().hp -= 10;
+                col.GetComponent<PlayerController>().hp -= 50;
                 yield return StartCoroutine(col.GetComponent<VisibilityScript>().Visible());
                 yield return StartCoroutine(col.GetComponent<VisibilityScript>().Invisible());
-                Destroy(gameObject);
             }
                 
             else if(!team1 && col.gameObject.name == "Player3" || !team1 && col.gameObject.name == "Player4")
             {
-                col.GetComponent<PlayerController>().hp -= 10;
+                col.GetComponent<PlayerController>().hp -= 50;
                 yield return StartCoroutine(col.GetComponent<VisibilityScript>().Visible());
                 yield return StartCoroutine(col.GetComponent<VisibilityScript>().Invisible());
-                Destroy(gameObject);
+                
             }
         }
-        
-        else if(col.CompareTag("Environment"))
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 
     IEnumerator DestroyAfterTime()

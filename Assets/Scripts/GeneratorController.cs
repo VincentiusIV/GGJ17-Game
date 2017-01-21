@@ -69,7 +69,7 @@ public class GeneratorController : MonoBehaviour {
         }
         catch (System.IndexOutOfRangeException)
         {
-            Debug.Log("Looks like there is something missing in the GeneratorController! Missing teamColor!");
+            //Debug.Log("Looks like there is something missing in the GeneratorController! Missing teamColor!");
             _wcc.color = Color.white;
         }
        

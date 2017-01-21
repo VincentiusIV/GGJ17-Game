@@ -53,7 +53,7 @@ public class CapturePoint : MonoBehaviour {
                 Debug.Log("Team1 is capping");
                 if (team2Percent > 0)
                     team2Percent -= 10;
-                else if(team1Percent <= 100)
+                else if(team1Percent < 100)
                     team1Percent += 10;
                 UpdateBars();
                 Debug.Log("team1: " + team1Percent + " team2:" + team2Percent);
@@ -65,7 +65,7 @@ public class CapturePoint : MonoBehaviour {
             {
                 if (team1Percent > 0)
                     team1Percent -= 10;
-                else if(team2Percent <= 100)
+                else if(team2Percent < 100)
                     team2Percent += 10;
                 UpdateBars();
                 Debug.Log("team1: " + team1Percent + " team2:" + team2Percent);

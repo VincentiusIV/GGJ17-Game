@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
+    public GameObject base1, base2;
     public GameObject defSpawnPosTeam1, defSpawnPosTeam2;
     public GameObject[] spawnPositions;
     public float respawnTime;

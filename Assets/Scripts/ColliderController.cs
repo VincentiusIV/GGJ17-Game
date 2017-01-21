@@ -53,9 +53,6 @@ public class ColliderController : MonoBehaviour {
 
 
         isActive = true;
-
-        Debug.Log(color);
-        Debug.Log(targetTeamTag);
     }
 
     void Update()
