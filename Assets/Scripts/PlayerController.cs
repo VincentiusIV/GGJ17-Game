@@ -52,7 +52,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //GamePad.SetVibration(playerIndex, 0f, 1f);
         // Movement
         float xPos = Input.GetAxis("L_XAxis_" + (1+(int)playerIndex)) * moveSpeed.x;
 
@@ -67,19 +66,19 @@ public class PlayerController : MonoBehaviour
         else if (xPos > 0)
         {
             vs.BecomeVisible();
-            transform.localScale = new Vector3(2f, transform.localScale.y, transform.localScale.z);
+            transform.localScale = new Vector3(1f, transform.localScale.y, transform.localScale.z);
             ani.SetBool("isWalking", true);
         }  
         else if (xPos < 0)
         {
             vs.BecomeVisible();
-            transform.localScale = new Vector3(-2f, transform.localScale.y, transform.localScale.z);
+            transform.localScale = new Vector3(-1f, transform.localScale.y, transform.localScale.z);
             ani.SetBool("isWalking", true);
         }
         
         if (Input.GetButtonDown("A_" + ((1+ (int)playerIndex))))
         {
-            StartCoroutine(SetVibrations(0.2f, 0.5f));
+            StartCoroutine(SetVibrations(1f, 0.5f));
             StartCoroutine(Jump());
         }
             
