@@ -6,4 +6,9 @@ public class SpawnPosition : MonoBehaviour {
 
     public string spawnState;
     public int team;
+
+    void Start()
+    {
+        GetComponent<SpriteRenderer>().enabled = false;
+    }
 }

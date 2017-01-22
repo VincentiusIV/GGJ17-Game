@@ -110,10 +110,12 @@ public class PlayerController : MonoBehaviour
                 vs.BecomeVisible();
             vs.isChanging = true;
             fireSpeed = Time.time + nextShot;
+
             if (gameObject.CompareTag("Team1"))
                 bullet.GetComponent<BulletScript>().team1 = true;
             else if (gameObject.CompareTag("Team2"))
                 bullet.GetComponent<BulletScript>().team1 = false;
+
             Instantiate(bullet, bullSpawnPos.GetChild(0).position, bullSpawnPos.rotation);
         }
         else if (Input.GetAxisRaw("TriggersR_" + (((int)playerIndex) + 1)) == 0)
@@ -152,7 +154,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator BloodWait()
     {
         bloodAnimator.SetBool("showBlood", true);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1ff);
         bloodAnimator.SetBool("showBlood", false);
     }
 }
