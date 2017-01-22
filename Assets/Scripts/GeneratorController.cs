@@ -13,6 +13,9 @@ public class GeneratorController : MonoBehaviour {
     [SerializeField] private float maxRadius;           //Max  Radius of the wave
     [SerializeField] private string colliderTagPrefix;  //Editor Name prefix for all colliders
     private bool error = false;
+
+    public float SpawnStartTime;
+
     void Start()
     {
         //Loop though all teams and spawn waves 
@@ -22,8 +25,14 @@ public class GeneratorController : MonoBehaviour {
             //SpawnWave(teamTags[i], i, true);
         }
 
-    }
+        StartCoroutine(WaveSpawner());
 
+    }
+    IEnumerator WaveSpawner()
+    {
+        yield return new WaitForSeconds(SpawnStartTime);
+        SpawnWave("anyone", -1, true);
+    }
 
     void Update()
     {
@@ -81,6 +90,6 @@ public class GeneratorController : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D _col)
     {
         //Spawn new wave.
-        SpawnWave("hitGenerator", -1, false);
+        SpawnWave(_col.tag, -1, false);
     }
 }
