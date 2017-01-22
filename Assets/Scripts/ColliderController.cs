@@ -21,12 +21,12 @@ public class ColliderController : MonoBehaviour {
     private GeneratorController gc;
     private DrawCircle drawCircle;
 
-
     [SerializeField] private LineRenderer lr;
 
 
     public void Setup()
     {
+
         circleCollider = GetComponent<CircleCollider2D>();
         lr = GetComponent<LineRenderer>();
 
@@ -57,14 +57,13 @@ public class ColliderController : MonoBehaviour {
 
     void Update()
     {
+
         if(isActive && circleCollider.radius >= maxRadius)
         {
             if (!repeat) {
                 isActive = false;
                 Destroy(this.gameObject, 0.5f);
             }
-
-            drawCircle.random = Random.value;
             drawCircle._horizRadius = baseRadius;
             drawCircle._vertRadius = baseRadius;
             circleCollider.radius = baseRadius;
@@ -77,6 +76,20 @@ public class ColliderController : MonoBehaviour {
         }
     }
 
+
+
+    private float currentTime;
+
+    void FixedUpdate()
+    {
+        Debug.Log(Time.fixedDeltaTime * 2500);
+        currentTime++;
+        if(currentTime > Time.fixedDeltaTime * 25)
+        {
+            currentTime = 0;
+            drawCircle.random = Random.Range(0.1f, 0.5f);
+        }
+    }
 
     IEnumerator OnTriggerEnter2D(Collider2D _col)
     {
