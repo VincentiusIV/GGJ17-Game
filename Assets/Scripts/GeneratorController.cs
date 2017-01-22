@@ -21,7 +21,6 @@ public class GeneratorController : MonoBehaviour {
         //Loop though all teams and spawn waves 
         for (int i = 0; i < teamTags.Length; i++)
         {
-            Debug.Log(i);
             //SpawnWave(teamTags[i], i, true);
         }
 
