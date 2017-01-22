@@ -10,12 +10,11 @@ public class BulletScript : MonoBehaviour
 
     void Start()
     {
-        //StartCoroutine(DestroyAfterTime());
+        StartCoroutine(DestroyAfterTime());
     }
 	// Update is called once per frame
 	void Update () {
-        if (Time.time > destroyTime)
-            Destroy(this.gameObject);
+
 
         transform.Translate(new Vector3(speed, 0f, 0f));
     }
@@ -29,7 +28,7 @@ public class BulletScript : MonoBehaviour
             if (col.gameObject.CompareTag("Team1") && team1 == true || col.gameObject.CompareTag("Team2") && team1 == false)
                 yield break;
 
-            if (team1 && col.gameObject.name == "Player1" || team1 && col.gameObject.name == "Player2")
+            if (team1 && col.gameObject.CompareTag("Team1"))
             {
                 GetComponent<SpriteRenderer>().enabled = false;
                 col.gameObject.GetComponent<PlayerController>().hp -= 50;
@@ -37,8 +36,9 @@ public class BulletScript : MonoBehaviour
                 yield return StartCoroutine(col.gameObject.GetComponent<VisibilityScript>().Invisible());
             }
 
-            else if (!team1 && col.gameObject.name == "Player3" || !team1 && col.gameObject.name == "Player4")
+            else if (!team1 && col.gameObject.CompareTag("Team2"))
             {
+                Debug.Log("fuck team 2");
                 GetComponent<SpriteRenderer>().enabled = false;
                 col.gameObject.GetComponent<PlayerController>().hp -= 50;
                 yield return StartCoroutine(col.gameObject.GetComponent<VisibilityScript>().Visible());

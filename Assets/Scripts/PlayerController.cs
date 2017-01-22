@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
                 bullet.GetComponent<BulletScript>().team1 = true;
             else if (gameObject.CompareTag("Team2"))
                 bullet.GetComponent<BulletScript>().team1 = false;
-            Instantiate(bullet, bullSpawnPos.GetChild(0).position, bullSpawnPos.GetChild(0).rotation);
+            Instantiate(bullet, bullSpawnPos.GetChild(0).position, bullSpawnPos.rotation);
         }
         else if (Input.GetAxisRaw("TriggersR_" + (((int)playerIndex) + 1)) == 0)
             isShooting = false;
