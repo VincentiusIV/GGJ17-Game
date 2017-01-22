@@ -89,18 +89,17 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(Jump());
         }
-
-        // Rotation
-        float angleRad = Mathf.Atan2(aim.transform.position.y - transform.position.y, aim.transform.position.x - transform.position.x);
-        float angleDeg = (180 / Mathf.PI) * angleRad;
-        bullSpawnPos.rotation = Quaternion.Euler(0, 0, angleDeg + -90);
-        aim.rotation = Quaternion.Euler(0, 0, angleDeg);
-
         // Aiming
         float aimX = Input.GetAxis("R_XAxis_" + ((int)playerIndex + 1));
         float aimY = Input.GetAxis("R_YAxis_" + ((int)playerIndex + 1));
         Vector3 aimPos = new Vector3(aimX, -aimY, 0f);
         aim.transform.position = aimPos + transform.position;
+
+        // Rotation
+        float angleRad = Mathf.Atan2(aim.transform.position.y - transform.position.y, aim.transform.position.x - transform.position.x);
+        float angleDeg = (180 / Mathf.PI) * angleRad;
+        bullSpawnPos.rotation = Quaternion.Euler(0, 0, angleDeg + 0);
+        aim.rotation = Quaternion.Euler(0, 0, angleDeg);
 
         // Shooting
         if (Time.time > fireSpeed && Input.GetAxisRaw("TriggersR_" + (((int)playerIndex) + 1)) > 0)

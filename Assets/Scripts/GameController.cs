@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
-    public GameObject base1, base2;
+    public int base1HP, base2HP;
     public GameObject defSpawnPosTeam1, defSpawnPosTeam2;
     public GameObject[] spawnPositions;
     public float respawnTime;
@@ -18,7 +18,13 @@ public class GameController : MonoBehaviour {
             spawnPositions[i].GetComponent<SpawnPosition>().spawnState = "nobody";
         }
     }
-
+    void Update()
+    {
+        if (base1HP <= 0)
+            Debug.Log("Team 1 died, 2 wins!");
+        else if (base2HP <= 0)
+            Debug.Log("Team 2 died, 1 wins!");
+    }
     public void CapturePoint(int pointID, string team)
     {
         spawnPositions[pointID].GetComponent<SpawnPosition>().spawnState = team;
