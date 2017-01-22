@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator BloodWait()
     {
         bloodAnimator.SetBool("showBlood", true);
-        yield return new WaitForSeconds(1ff);
+        yield return new WaitForSeconds(1f);
         bloodAnimator.SetBool("showBlood", false);
     }
 }
