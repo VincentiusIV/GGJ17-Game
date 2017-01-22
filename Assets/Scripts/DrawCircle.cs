@@ -48,9 +48,9 @@ public class DrawCircle : MonoBehaviour
         _line.numPositions = _segments + 1;
         _line.useWorldSpace = false;
 
-        UpdateValuesChanged();
+        //UpdateValuesChanged();
 
-        CreatePoints();
+        //CreatePoints();
     }
 
     void Update()

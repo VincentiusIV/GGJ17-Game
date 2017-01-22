@@ -19,7 +19,7 @@ public class GeneratorController : MonoBehaviour {
         for (int i = 0; i < teamTags.Length; i++)
         {
             Debug.Log(i);
-            SpawnWave(teamTags[i], i, true);
+            //SpawnWave(teamTags[i], i, true);
         }
 
     }
