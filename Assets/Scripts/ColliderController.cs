@@ -57,7 +57,6 @@ public class ColliderController : MonoBehaviour {
 
     void Update()
     {
-        
         if(isActive && circleCollider.radius >= maxRadius)
         {
             if (!repeat) {
@@ -70,13 +69,13 @@ public class ColliderController : MonoBehaviour {
             drawCircle._vertRadius = baseRadius;
             circleCollider.radius = baseRadius;
         }
-
+/*
         if(isActive && circleCollider.radius <= maxRadius)
         {
             drawCircle._horizRadius += baseSpeed * 2;
             drawCircle._vertRadius += baseSpeed * 2;
             circleCollider.radius += baseSpeed;
-        }
+        }*/
     }
 
 

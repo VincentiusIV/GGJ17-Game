@@ -42,7 +42,7 @@ public class GeneratorController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SpawnWave("test", -1, false);
+            SpawnWave("Team1", -1, false);
         }
     }
 

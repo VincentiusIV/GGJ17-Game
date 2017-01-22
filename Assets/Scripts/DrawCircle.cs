@@ -80,12 +80,10 @@ public class DrawCircle : MonoBehaviour
     }
     [SerializeField]float scale;
     [SerializeField]float frequency;
-    [SerializeField]float amplitude;
+    [SerializeField]float minAmplitude, maxAmplitude;
 
     void CreatePoints()
     {
-        
-
         if (_previousSegmentsValue != _segments)
         {
             _line.numPositions = _segments + 1;
@@ -100,7 +98,7 @@ public class DrawCircle : MonoBehaviour
         for (int i = 0; i < (_segments + 1); i++)
         {
             float perlin = Mathf.PerlinNoise(i / scale * frequency + random * 10, i / scale * frequency + random);
-            float height = perlin * amplitude / 100;
+            float height = perlin * Random.Range(minAmplitude, maxAmplitude) / 100;
             //float xPerl = Mathf.Sin(i / sinWaveAmp) + sinWaveFrequency;
             //float yPerl = Mathf.Sin(i / sinWaveAmp) + sinWaveFrequency;
 
