@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         bs.speed = bulletSpeed;
         bs.destroyTime = destroyTime;
 
-        bullSpawnPos = transform.FindChild("SpawnPos");
+        bullSpawnPos = transform.FindChild("SpawnPosAxis");
 
         ani = GetComponent<Animator>();
 
@@ -89,7 +89,6 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(Jump());
         }
-        
 
         // Rotation
         float angleRad = Mathf.Atan2(aim.transform.position.y - transform.position.y, aim.transform.position.x - transform.position.x);
@@ -115,7 +114,7 @@ public class PlayerController : MonoBehaviour
                 bullet.GetComponent<BulletScript>().team1 = true;
             else if (gameObject.CompareTag("Team2"))
                 bullet.GetComponent<BulletScript>().team1 = false;
-            Instantiate(bullet, bullSpawnPos.position, bullSpawnPos.rotation);
+            Instantiate(bullet, bullSpawnPos.GetChild(0).position, bullSpawnPos.GetChild(0).rotation);
         }
         else if (Input.GetAxisRaw("TriggersR_" + (((int)playerIndex) + 1)) == 0)
             isShooting = false;
@@ -152,8 +151,8 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator BloodWait()
     {
-        bloodAnimator.SetBool("ShowBlood", true);
+        bloodAnimator.SetBool("showBlood", true);
         yield return new WaitForSeconds(0.1f);
-        bloodAnimator.SetBool("ShowBlood", false);
+        bloodAnimator.SetBool("showBlood", false);
     }
 }

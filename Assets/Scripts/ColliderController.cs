@@ -80,7 +80,7 @@ public class ColliderController : MonoBehaviour {
 
     IEnumerator OnTriggerEnter2D(Collider2D _col)
     {
-        if(_col.tag == targetTeamTag)
+        if(_col.tag == targetTeamTag || targetTeamTag == "anyone")
         {
             VisibilityScript vs = _col.GetComponent<VisibilityScript>();
             //Do stuff when player get hit by the "wave"
@@ -90,7 +90,6 @@ public class ColliderController : MonoBehaviour {
             yield return StartCoroutine(vs.Invisible());
         }
     }
-
 
     public void SetSpeed(float _speed)
     {

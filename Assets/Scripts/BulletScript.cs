@@ -4,42 +4,50 @@ using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
-    [HideInInspector]public float speed;
-    [HideInInspector]public float destroyTime;
-    [HideInInspector]public bool team1;
+    public float speed;
+    public float destroyTime = 5f;
+    public bool team1;
 
     void Start()
     {
-        StartCoroutine(DestroyAfterTime());
+        //StartCoroutine(DestroyAfterTime());
     }
 	// Update is called once per frame
 	void Update () {
-        transform.Translate(new Vector2(0f, speed));
+        if (Time.time > destroyTime)
+            Destroy(this.gameObject);
+
+        transform.Translate(new Vector3(speed, 0f, 0f));
     }
 
-    IEnumerator OnTriggerEnter2D(Collider2D col)
+    IEnumerator OnCollisionEnter2D(Collision2D col)
     {
-        Destroy(gameObject, 1f);
-        if (col.CompareTag("Team1") || col.CompareTag("Team2"))
+        Debug.Log("bullet collided with" + col.gameObject.tag);
+
+        if (col.gameObject.CompareTag("Team1") || col.gameObject.CompareTag("Team2"))
         {
-            if (col.CompareTag("Team1") && team1 == true || col.CompareTag("Team2") && team1 == false)
+            if (col.gameObject.CompareTag("Team1") && team1 == true || col.gameObject.CompareTag("Team2") && team1 == false)
                 yield break;
 
-            if(team1 && col.gameObject.name == "Player1" || team1 && col.gameObject.name == "Player2")
+            if (team1 && col.gameObject.name == "Player1" || team1 && col.gameObject.name == "Player2")
             {
-                col.GetComponent<PlayerController>().hp -= 50;
-                yield return StartCoroutine(col.GetComponent<VisibilityScript>().Visible());
-                yield return StartCoroutine(col.GetComponent<VisibilityScript>().Invisible());
+                GetComponent<SpriteRenderer>().enabled = false;
+                col.gameObject.GetComponent<PlayerController>().hp -= 50;
+                yield return StartCoroutine(col.gameObject.GetComponent<VisibilityScript>().Visible());
+                yield return StartCoroutine(col.gameObject.GetComponent<VisibilityScript>().Invisible());
             }
 
-            else if(!team1 && col.gameObject.name == "Player3" || !team1 && col.gameObject.name == "Player4")
+            else if (!team1 && col.gameObject.name == "Player3" || !team1 && col.gameObject.name == "Player4")
             {
-                col.GetComponent<PlayerController>().hp -= 50;
-                yield return StartCoroutine(col.GetComponent<VisibilityScript>().Visible());
-                yield return StartCoroutine(col.GetComponent<VisibilityScript>().Invisible()); 
+                GetComponent<SpriteRenderer>().enabled = false;
+                col.gameObject.GetComponent<PlayerController>().hp -= 50;
+                yield return StartCoroutine(col.gameObject.GetComponent<VisibilityScript>().Visible());
+                yield return StartCoroutine(col.gameObject.GetComponent<VisibilityScript>().Invisible());
             }
-            col.GetComponent<PlayerController>().SpawnBlood();
+            col.gameObject.GetComponent<PlayerController>().SpawnBlood();
         }
+        else
+            Destroy(gameObject);
     }
 
     IEnumerator DestroyAfterTime()
