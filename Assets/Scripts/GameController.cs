@@ -11,8 +11,13 @@ public class GameController : MonoBehaviour {
 
     public int team1DeathCount, team2DeathCount;
 
+    private AudioSource asource;
+    public AudioClip[] deathSounds;
+    public AudioClip[] multikillSounds;
+
     void Start()
     {
+        asource = GetComponent<AudioSource>();
         for (int i = 0; i < spawnPositions.Length; i++)
         {
             spawnPositions[i].GetComponent<SpawnPosition>().spawnState = "nobody";
@@ -25,6 +30,7 @@ public class GameController : MonoBehaviour {
         else if (base2HP <= 0)
             Debug.Log("Team 2 died, 1 wins!");
     }
+    
     public void CapturePoint(int pointID, string team)
     {
         spawnPositions[pointID].GetComponent<SpawnPosition>().spawnState = team;
@@ -40,6 +46,10 @@ public class GameController : MonoBehaviour {
 
     public IEnumerator RespawnPlayer(PlayerController player)
     {
+        int value = Random.Range(0, deathSounds.Length);
+        asource.clip = deathSounds[value];
+        asource.Play();
+
         player.enabled = false;
         
         if (player.CompareTag("Team1"))

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpawnPosition : MonoBehaviour {
 
+
     public string spawnState;
     public int team;
 
@@ -11,4 +12,5 @@ public class SpawnPosition : MonoBehaviour {
     {
         GetComponent<SpriteRenderer>().enabled = false;
     }
+
 }
