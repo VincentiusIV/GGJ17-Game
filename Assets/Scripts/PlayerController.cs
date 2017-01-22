@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     // Combat
     public int hp;
     public int maxHP;
+    private Animator bloodAnimator;
 
     // Private references
     private Rigidbody2D rb;
@@ -52,6 +53,8 @@ public class PlayerController : MonoBehaviour
         hpBar = transform.FindChild("HealthBar");
         gc = GameObject.Find("GameController").GetComponent<GameController>();
         nextShot = fireSpeed;
+
+        bloodAnimator = transform.FindChild("BloodSpatter").GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -72,11 +75,13 @@ public class PlayerController : MonoBehaviour
         else if (xPos > 0)
         {
             transform.localScale = new Vector3(1f, transform.localScale.y, transform.localScale.z);
+            aim.localScale = new Vector3(1f, aim.localScale.y, aim.localScale.z);
             ani.SetBool("isWalking", true);
         }  
         else if (xPos < 0)
         {
             transform.localScale = new Vector3(-1f, transform.localScale.y, transform.localScale.z);
+            aim.localScale = new Vector3(-1f, aim.localScale.y, aim.localScale.z);
             ani.SetBool("isWalking", true);
         }
 
@@ -138,5 +143,17 @@ public class PlayerController : MonoBehaviour
         GamePad.SetVibration(playerIndex, intensity, intensity);
         yield return new WaitForSeconds(duration);
         GamePad.SetVibration(playerIndex, 0f, 0f);
+    }
+
+    public void SpawnBlood()
+    {
+        StartCoroutine(BloodWait());
+    }
+
+    IEnumerator BloodWait()
+    {
+        bloodAnimator.SetBool("ShowBlood", true);
+        yield return new WaitForSeconds(0.1f);
+        bloodAnimator.SetBool("ShowBlood", false);
     }
 }

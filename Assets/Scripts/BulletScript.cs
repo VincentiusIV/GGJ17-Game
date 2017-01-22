@@ -34,6 +34,8 @@ public class BulletScript : MonoBehaviour
                 yield return StartCoroutine(col.GetComponent<VisibilityScript>().Invisible());
                 
             }
+
+            col.GetComponent<PlayerController>().SpawnBlood();
         }
         Destroy(gameObject);
     }
