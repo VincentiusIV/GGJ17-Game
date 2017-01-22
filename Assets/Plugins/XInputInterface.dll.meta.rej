@@ -1,0 +1,10 @@
+diff a/Assets/Plugins/XInputInterface.dll.meta b/Assets/Plugins/XInputInterface.dll.meta	(rejected hunks)
+@@ -1,6 +1,6 @@
+ fileFormatVersion: 2
+-guid: 673a47ef256313843bd68c5fd4332f35
+-timeCreated: 1484987561
++guid: fed4eb9f3f871db4386c3f69ea0896f6
++timeCreated: 1485021401
+ licenseType: Free
+ PluginImporter:
+   serializedVersion: 1

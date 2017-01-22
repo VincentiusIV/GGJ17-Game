@@ -1,0 +1,13 @@
+diff a/Assets/Plugins/XInputDotNetPure.dll.meta b/Assets/Plugins/XInputDotNetPure.dll.meta	(rejected hunks)
+@@ -1,6 +1,11 @@
+ fileFormatVersion: 2
++<<<<<<< HEAD
++guid: b4bd828aa9d7fea468c14d900401b138
++timeCreated: 1485021397
++=======
+ guid: 2ee932ca9cff9a2469e5f9b3d474ce41
+ timeCreated: 1485027228
++>>>>>>> origin/master
+ licenseType: Free
+ PluginImporter:
+   serializedVersion: 1
