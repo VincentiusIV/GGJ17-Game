@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class GameController : MonoBehaviour {
 
     public int base1HP, base2HP;
@@ -12,7 +13,7 @@ public class GameController : MonoBehaviour {
     public int team1DeathCount, team2DeathCount;
 
     private AudioSource asource;
-    public AudioClip[] deathSounds;
+    public AudioClip[] deathSoundsBlue, deathsoundsOrange;
     public AudioClip[] multikillSounds;
 
     void Start()
@@ -46,6 +47,10 @@ public class GameController : MonoBehaviour {
 
     public IEnumerator RespawnPlayer(PlayerController player)
     {
+        AudioClip[] deathSounds = deathSoundsBlue;
+        if (player.tag == "Team2")
+            deathSounds = deathsoundsOrange;
+
         int value = Random.Range(0, deathSounds.Length);
         asource.clip = deathSounds[value];
         asource.Play();

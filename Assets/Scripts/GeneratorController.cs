@@ -33,27 +33,6 @@ public class GeneratorController : MonoBehaviour {
         SpawnWave("anyone", -1, true);
     }
 
-    void Update()
-    {
-        //Development
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            GameObject _comp = GameObject.Find("CC_TEAM_01");
-
-            _comp.GetComponent<ColliderController>().baseSpeed += 0.05f;
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            GameObject _comp = GameObject.Find("CC_TEAM_02");
-            _comp.GetComponent<ColliderController>().baseSpeed += 0.05f;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SpawnWave("Team1", -1, false);
-        }
-    }
-
     void SpawnWave(string _team,int num, bool _repeat)
     {
 

@@ -82,7 +82,6 @@ public class ColliderController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        Debug.Log(Time.fixedDeltaTime * 2500);
         currentTime++;
         if(currentTime > Time.fixedDeltaTime * 25)
         {
