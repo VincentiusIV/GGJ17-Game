@@ -11,6 +11,8 @@ public class CapturePoint : MonoBehaviour {
 
     private GameObject proBar1, proBar2;
     private GameController gc;
+
+    private bool capTeam1, capTeam2;
 	// Use this for initialization
 	void Start () {
         gc = GameObject.Find("GameController").GetComponent<GameController>();
@@ -56,9 +58,15 @@ public class CapturePoint : MonoBehaviour {
                 else if(team1Percent < 100)
                     team1Percent += 10;
                 UpdateBars();
-                Debug.Log("team1: " + team1Percent + " team2:" + team2Percent);
-                if (team1Percent == 100)
+                Debug.Log("team1: " + team1Percent + " team2:" + team2Percent );
+                if (team1Percent == 100 && !capTeam1)
+                {
+                    capTeam1 = true;
+                    capTeam2 = false;
                     gc.CapturePoint(capPointID, "Team1");
+                    PlayCapSound(true);
+                }
+                    
                 continue;
             }
             if(team2Capping && !team1Capping)
@@ -69,8 +77,13 @@ public class CapturePoint : MonoBehaviour {
                     team2Percent += 10;
                 UpdateBars();
                 Debug.Log("team1: " + team1Percent + " team2:" + team2Percent);
-                if (team2Percent == 100)
+                if (team2Percent == 100 && !capTeam2)
+                {
+                    capTeam1 = false;
+                    capTeam2 = true;
                     gc.CapturePoint(capPointID, "Team2");
+                    PlayCapSound(false);
+                }
                 continue;
             }
         }
@@ -80,5 +93,24 @@ public class CapturePoint : MonoBehaviour {
     {
         proBar1.transform.localScale = new Vector3(team1Percent / 100f, proBar1.transform.localScale.y, 0f);
         proBar2.transform.localScale = new Vector3(team2Percent / 100f, proBar2.transform.localScale.y, 0f);
+    }
+
+    private AudioSource asource;
+    public AudioClip[] clipsTeam1;
+    public AudioClip[] clipsTeam2;
+
+    public void PlayCapSound(bool team)
+    {
+        AudioClip[] clips = clipsTeam1;
+        if (team)
+            clips = clipsTeam1;
+        else if (!team)
+            clips = clipsTeam2;
+
+        asource = GetComponent<AudioSource>();
+        int value = Random.Range(0, clips.Length);
+        Debug.Log(value);
+        asource.clip = clips[value];
+        asource.Play();
     }
 }
